@@ -1,4 +1,5 @@
-const express = require('express')
+const express = require('express');
+const { findById } = require('../../models/Item');
 const router = express.Router();
 
 // Item model
@@ -25,4 +26,18 @@ router.post('/', (req, res) => {
     });
     newItem.save().then(item => res.json(item));
    });
+
+// @route DELETE api/items/delete
+// @desc Delete an Item
+// @access Public 
+router.delete('/:id', (req, res) => {
+    Item.findById(req.params.id).then(item =>
+         item.remove().then(() => res.json({success: true}))
+         )
+         .catch(err => res.status(404).json({success: false}))
+    })
+    
+ 
+  
 module.exports = router;
+
